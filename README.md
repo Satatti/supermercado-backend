@@ -8,14 +8,12 @@ Backend de un sistema de gestión de supermercado desarrollado con **Node.js**, 
 
 | Nombre Completo | Responsabilidad Principal |
 |---|---|
-| **[Nombre 1]** | Configuración del proyecto, modelos Sequelize y relaciones |
-| **[Nombre 2]** | Controladores de Productos y Proveedores |
-| **[Nombre 3]** | Controladores de Ventas y DetalleVenta (cálculo automático del total) |
-| **[Nombre 4]** | Rutas, Swagger UI y documentación del proyecto |
+| **Santiago Valencia Diaz** |
+| Configuración del proyecto, modelos Sequelize y relaciones |
+| Controladores de Productos y Proveedores |
+| Controladores de Ventas y DetalleVenta (cálculo automático del total) |
+| Rutas, Swagger UI y documentación del proyecto |
 
-> ⚠️ Reemplaza los nombres con los datos reales de tu equipo.
-
----
 
 ## 📋 Descripción del Proyecto
 
@@ -95,7 +93,7 @@ supermercado-backend/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/supermercado-backend.git
+git clone https://github.com/satatti/supermercado-backend.git
 cd supermercado-backend
 
 🧑‍💻 Autoría
