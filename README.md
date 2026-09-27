@@ -1,0 +1,99 @@
+# 🛒 API REST - Supermercado MarketSoft
+
+Backend de un sistema de gestión de supermercado desarrollado con **Node.js**, **Express**, **Sequelize** y **PostgreSQL**, aplicando arquitectura **MVC**.
+
+---
+
+## 👥 Integrantes y Responsabilidades
+
+| Nombre Completo | Responsabilidad Principal |
+|---|---|
+| **[Nombre 1]** | Configuración del proyecto, modelos Sequelize y relaciones |
+| **[Nombre 2]** | Controladores de Productos y Proveedores |
+| **[Nombre 3]** | Controladores de Ventas y DetalleVenta (cálculo automático del total) |
+| **[Nombre 4]** | Rutas, Swagger UI y documentación del proyecto |
+
+> ⚠️ Reemplaza los nombres con los datos reales de tu equipo.
+
+---
+
+## 📋 Descripción del Proyecto
+
+Sistema backend que permite administrar:
+
+- **Proveedores** (`providers`)
+- **Productos** (`products`) — cada uno asociado a un proveedor
+- **Usuarios** (`users`) — con roles: admin, vendedor, cliente
+- **Ventas** (`sales`) — con cálculo automático del total
+- **DetalleVenta** (`sale_details`) — productos por venta
+
+### Relaciones
+Proveedor (1) ──────< (N) Producto
+Usuario (1) ──────< (N) Venta
+Venta (1) ──────< (N) DetalleVenta
+Producto (1) ──────< (N) DetalleVenta
+
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Node.js** - Entorno de ejecución
+- **Express.js** - Framework backend
+- **PostgreSQL** - Base de datos relacional
+- **Sequelize** - ORM
+- **Swagger UI** - Documentación interactiva
+- **Arquitectura MVC** - Model, View, Controller
+
+---
+
+## 📁 Estructura del Proyecto
+supermercado-backend/
+├── config/
+│ └── database.js # Configuración de Sequelize + PostgreSQL
+├── models/ # Modelos Sequelize
+│ ├── index.js # Definición de relaciones
+│ ├── product.js
+│ ├── provider.js
+│ ├── sale.js
+│ ├── saleDetail.js
+│ └── user.js
+├── controllers/ # Lógica de negocio
+│ ├── productController.js
+│ ├── providerController.js
+│ ├── saleController.js
+│ ├── saleDetailController.js
+│ └── userController.js
+├── routes/ # Endpoints REST
+│ ├── index.js
+│ ├── productRoutes.js
+│ ├── providerRoutes.js
+│ ├── saleRoutes.js
+│ ├── saleDetailRoutes.js
+│ └── userRoutes.js
+├── docs/
+│ └── swagger.yaml # Especificación OpenAPI 3.0
+├── app.js # Configuración de Express
+├── server.js # Punto de entrada
+├── .env # Variables de entorno (no en GitHub)
+├── .gitignore
+└── package.json
+
+
+---
+
+## ⚙️ Requisitos Previos
+
+- Node.js (v18 o superior)
+- PostgreSQL (v14 o superior)
+- npm
+
+---
+
+## 🚀 Instrucciones de Ejecución
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/tu-usuario/supermercado-backend.git
+cd supermercado-backend
