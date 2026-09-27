@@ -1,7 +1,3 @@
-```bash
-cat > README.md << 'ENDOFFILE
-```
-
 # 🛒 API REST - Supermercado MarketSoft
 
 Backend de un sistema de gestión de supermercado desarrollado con **Node.js**, **Express**, **Sequelize** y **PostgreSQL**, aplicando arquitectura **MVC**.
