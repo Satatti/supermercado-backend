@@ -88,6 +88,7 @@ supermercado-backend/
 - npm
 
 ---
+> Los comandos son para Linux/Mac. En Windows, ajusta rutas y usa PowerShell.
 
 ## 🚀 Instrucciones de Ejecución
 
@@ -107,16 +108,18 @@ npm install
 ### 3. Configurar la base de datos PostgreSQL
 
 ```bash
-sudo -u postgres psql
-CREATE DATABASE supermercado_db;
-\q
+psql -U postgres -c "CREATE DATABASE supermercado_db;"
 ```
+> Las tablas se crean automáticamente al iniciar el servidor (Sequelize `sync`).
+> Si prefieres crearlas manualmente, usa `schema.sql` (si está incluido).
+
 
 ### 4. Configurar variables de entorno
 
 Crea un archivo `.env` en la raíz del proyecto con:
 
 ```env
+# .env.example
 PORT=3000
 DB_NAME=supermercado_db
 DB_USER=postgres
@@ -125,12 +128,19 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_DIALECT=postgres
 ```
+cp .env.example .env   # Linux/Mac
+copy .env.example .env # Windows (CMD)
+
 
 ### 5. Ejecutar el proyecto
 
 ```bash
 npm start
 ```
+Al arrancar, deberías ver:
+Server running on http://localhost:3000
+Database connected
+> La BD arranca vacia
 
 El servidor estará disponible en: [http://localhost:3000](http://localhost:3000)
 
@@ -146,6 +156,8 @@ Una vez el servidor esté corriendo, accede a:
 
 ## 🔗 Endpoints de la API
 
+> La documentación completa e interactiva está en Swagger UI: `/api-docs`
+> Las tablas de abajo son un resumen.
 Todas las rutas usan el prefijo `/api`.
 
 ### Proveedores
