@@ -111,7 +111,7 @@ npm install
 psql -U postgres -c "CREATE DATABASE supermercado_db;"
 ```
 > Las tablas se crean automáticamente al iniciar el servidor (Sequelize `sync`).
-> Si prefieres crearlas manualmente, usa `schema.sql` (si está incluido).
+> Si prefieres crearlas manualmente, usa `schema.sql`
 
 
 ### 4. Configurar variables de entorno
