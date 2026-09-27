@@ -97,3 +97,6 @@ supermercado-backend/
 ```bash
 git clone https://github.com/tu-usuario/supermercado-backend.git
 cd supermercado-backend
+
+🧑‍💻 Autoría
+Proyecto desarrollado como parte de la Actividad Colaborativa I - Taller Integrador Backend para la Universidad de Manizales.
