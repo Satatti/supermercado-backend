@@ -128,9 +128,10 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_DIALECT=postgres
 ```
+```bash
 cp .env.example .env   # Linux/Mac
 copy .env.example .env # Windows (CMD)
-
+```
 
 ### 5. Ejecutar el proyecto
 
