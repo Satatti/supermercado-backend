@@ -113,8 +113,8 @@ npm install
 ```bash
 psql -U postgres -c "CREATE DATABASE supermercado_db;"
 ```
-> Las tablas se crean automáticamente al iniciar el servidor (Sequelize `sync
-> > La base de datos arranca vacía — no hay datos de prueba precargados.
+> Las tablas se crean automáticamente al iniciar el servidor (Sequelize `sync)
+> La base de datos arranca vacía — no hay datos de prueba precargados.
 
 
 
