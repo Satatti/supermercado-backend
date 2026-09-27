@@ -9,6 +9,15 @@ const app = express();
 app.use(express.json()); // Permite recibir JSON en el body
 app.use(express.urlencoded({ extended: true })); // Permite form-urlencoded
 
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const path = require('path');
+
+// ...
+// Cargar la especificación Swagger
+const swaggerDocument = YAML.load(path.join(__dirname, 'docs', 'swagger.yaml'));
+
+
 // ==========================================
 // RUTA DE BIENVENIDA
 // ==========================================
@@ -25,6 +34,12 @@ app.get('/', (req, res) => {
         }
     });
 });
+
+// ==========================================
+// SWAGGER UI
+// ==========================================
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 // ==========================================
 // RUTAS DE LA API

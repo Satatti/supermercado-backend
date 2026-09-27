@@ -1,0 +1,683 @@
+openapi: 3.0.0
+info:
+  title: API REST - Supermercado MarketSoft
+  description: |
+    Backend de un sistema de supermercado desarrollado con Node.js, Express, Sequelize y PostgreSQL.
+
+    Permite gestionar:
+    - **Proveedores**: proveedores de productos
+    - **Productos**: catálogo de productos con stock y precio
+    - **Usuarios**: usuarios del sistema (admin, vendedor, cliente)
+    - **Ventas**: transacciones de venta con cálculo automático del total
+    - **DetalleVenta**: detalle de productos por venta
+  version: 1.0.0
+  contact:
+    name: Equipo MarketSoft
+servers:
+  - url: http://localhost:3000/api
+    description: Servidor local de desarrollo
+
+tags:
+  - name: Providers
+    description: Gestión de proveedores
+  - name: Products
+    description: Gestión de productos
+  - name: Users
+    description: Gestión de usuarios
+  - name: Sales
+    description: Gestión de ventas
+  - name: SaleDetails
+    description: Detalle de ventas
+
+paths:
+  # ==========================================
+  # PROVIDERS
+  # ==========================================
+  /providers:
+    get:
+      tags: [Providers]
+      summary: Obtener todos los proveedores
+      responses:
+        '200':
+          description: Lista de proveedores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Provider'
+    post:
+      tags: [Providers]
+      summary: Crear un nuevo proveedor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderInput'
+      responses:
+        '201':
+          description: Proveedor creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provider'
+        '400':
+          description: Error de validación
+  /providers/{id}:
+    get:
+      tags: [Providers]
+      summary: Obtener un proveedor por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Proveedor encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provider'
+        '404':
+          description: Proveedor no encontrado
+    put:
+      tags: [Providers]
+      summary: Actualizar un proveedor
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderInput'
+      responses:
+        '200':
+          description: Proveedor actualizado
+        '404':
+          description: Proveedor no encontrado
+    delete:
+      tags: [Providers]
+      summary: Eliminar un proveedor
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Proveedor eliminado
+        '404':
+          description: Proveedor no encontrado
+
+  # ==========================================
+  # PRODUCTS
+  # ==========================================
+  /products:
+    get:
+      tags: [Products]
+      summary: Obtener todos los productos
+      responses:
+        '200':
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      tags: [Products]
+      summary: Crear un nuevo producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        '201':
+          description: Producto creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Error de validación (precio <= 0, stock negativo, proveedor inexistente)
+  /products/{id}:
+    get:
+      tags: [Products]
+      summary: Obtener un producto por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+    put:
+      tags: [Products]
+      summary: Actualizar un producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        '200':
+          description: Producto actualizado
+        '404':
+          description: Producto no encontrado
+    delete:
+      tags: [Products]
+      summary: Eliminar un producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Producto eliminado
+        '404':
+          description: Producto no encontrado
+
+  # ==========================================
+  # USERS
+  # ==========================================
+  /users:
+    get:
+      tags: [Users]
+      summary: Obtener todos los usuarios
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      tags: [Users]
+      summary: Crear un nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: Usuario creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Error de validación (email duplicado, rol inválido)
+  /users/{id}:
+    get:
+      tags: [Users]
+      summary: Obtener un usuario por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Usuario no encontrado
+    put:
+      tags: [Users]
+      summary: Actualizar un usuario
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '200':
+          description: Usuario actualizado
+        '404':
+          description: Usuario no encontrado
+    delete:
+      tags: [Users]
+      summary: Eliminar un usuario
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuario eliminado
+        '404':
+          description: Usuario no encontrado
+
+  # ==========================================
+  # SALES
+  # ==========================================
+  /sales:
+    get:
+      tags: [Sales]
+      summary: Obtener todas las ventas
+      responses:
+        '200':
+          description: Lista de ventas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sale'
+    post:
+      tags: [Sales]
+      summary: Crear una nueva venta
+      description: |
+        Crea una venta con sus detalles. El **total se calcula automáticamente**
+        multiplicando el precio de cada producto por la cantidad, y se descuenta
+        el stock de cada producto.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaleInput'
+      responses:
+        '201':
+          description: Venta creada con total calculado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sale'
+        '400':
+          description: Error (usuario inexistente, producto inexistente, stock insuficiente)
+  /sales/{id}:
+    get:
+      tags: [Sales]
+      summary: Obtener una venta por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Venta encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sale'
+        '404':
+          description: Venta no encontrada
+    put:
+      tags: [Sales]
+      summary: Actualizar una venta
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                date:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Venta actualizada
+        '404':
+          description: Venta no encontrada
+    delete:
+      tags: [Sales]
+      summary: Eliminar una venta
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Venta eliminada
+        '404':
+          description: Venta no encontrada
+
+  # ==========================================
+  # SALE DETAILS
+  # ==========================================
+  /sale-details:
+    get:
+      tags: [SaleDetails]
+      summary: Obtener todos los detalles de ventas
+      responses:
+        '200':
+          description: Lista de detalles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SaleDetail'
+    post:
+      tags: [SaleDetails]
+      summary: Crear un detalle de venta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaleDetailInput'
+      responses:
+        '201':
+          description: Detalle creado
+        '400':
+          description: Error de validación
+  /sale-details/{id}:
+    get:
+      tags: [SaleDetails]
+      summary: Obtener un detalle por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalle encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaleDetail'
+        '404':
+          description: Detalle no encontrado
+    put:
+      tags: [SaleDetails]
+      summary: Actualizar un detalle
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaleDetailInput'
+      responses:
+        '200':
+          description: Detalle actualizado
+        '404':
+          description: Detalle no encontrado
+    delete:
+      tags: [SaleDetails]
+      summary: Eliminar un detalle
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalle eliminado
+        '404':
+          description: Detalle no encontrado
+
+# ==========================================
+# SCHEMAS
+# ==========================================
+components:
+  schemas:
+    Provider:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Distribuidora ABC"
+        phone:
+          type: string
+          example: "123456789"
+        email:
+          type: string
+          example: "abc@test.com"
+        city:
+          type: string
+          example: "Manizales"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    ProviderInput:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          example: "Distribuidora ABC"
+        phone:
+          type: string
+          example: "123456789"
+        email:
+          type: string
+          example: "abc@test.com"
+        city:
+          type: string
+          example: "Manizales"
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Leche entera 1L"
+        description:
+          type: string
+          example: "Leche entera de vaca"
+        price:
+          type: number
+          format: float
+          example: 3500.00
+        stock:
+          type: integer
+          example: 50
+        providerId:
+          type: integer
+          example: 1
+        provider:
+          $ref: '#/components/schemas/Provider'
+
+    ProductInput:
+      type: object
+      required: [name, price, stock, providerId]
+      properties:
+        name:
+          type: string
+          example: "Leche entera 1L"
+        description:
+          type: string
+          example: "Leche entera de vaca"
+        price:
+          type: number
+          example: 3500.00
+        stock:
+          type: integer
+          example: 50
+        providerId:
+          type: integer
+          example: 1
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Juan Pérez"
+        email:
+          type: string
+          example: "juan@test.com"
+        role:
+          type: string
+          enum: [admin, vendedor, cliente]
+          example: "vendedor"
+
+    UserInput:
+      type: object
+      required: [name, email, role]
+      properties:
+        name:
+          type: string
+          example: "Juan Pérez"
+        email:
+          type: string
+          example: "juan@test.com"
+        role:
+          type: string
+          enum: [admin, vendedor, cliente]
+          example: "vendedor"
+
+    Sale:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        userId:
+          type: integer
+          example: 1
+        date:
+          type: string
+          format: date-time
+        total:
+          type: number
+          format: float
+          example: 10500.00
+        user:
+          $ref: '#/components/schemas/User'
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/SaleDetail'
+
+    SaleInput:
+      type: object
+      required: [userId, details]
+      properties:
+        userId:
+          type: integer
+          example: 1
+        details:
+          type: array
+          items:
+            type: object
+            required: [productId, quantity]
+            properties:
+              productId:
+                type: integer
+                example: 1
+              quantity:
+                type: integer
+                example: 3
+
+    SaleDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        saleId:
+          type: integer
+          example: 1
+        productId:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          example: 3
+        price:
+          type: number
+          format: float
+          example: 3500.00
+        product:
+          $ref: '#/components/schemas/Product'
+
+    SaleDetailInput:
+      type: object
+      required: [saleId, productId, quantity, price]
+      properties:
+        saleId:
+          type: integer
+          example: 1
+        productId:
+          type: integer
+          example: 1
+        quantity:
+          type: integer
+          example: 3
+        price:
+          type: number
+          example: 3500.00
