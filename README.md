@@ -4,15 +4,11 @@ Backend de un sistema de gestión de supermercado desarrollado con **Node.js**, 
 
 ---
 
-## 👥 Integrantes y Responsabilidades
+## 👤 Autor
 
-| Nombre Completo | Responsabilidad Principal |
+| Nombre Completo | Responsabilidades |
 |---|---|
-| **Santiago Valencia Diaz** |
-| Configuración del proyecto, modelos Sequelize y relaciones |
-| Controladores de Productos y Proveedores |
-| Controladores de Ventas y DetalleVenta (cálculo automático del total) |
-| Rutas, Swagger UI y documentación del proyecto |
+| **Santiago Valencia Diaz** | Configuración del proyecto, modelos Sequelize y relaciones, controladores de Productos y Proveedores, controladores de Ventas y DetalleVenta (cálculo automático del total), rutas, Swagger UI y documentación del proyecto |
 
 
 ## 📋 Descripción del Proyecto
